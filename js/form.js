@@ -7,10 +7,19 @@ botaoAdicionar.addEventListener('click', function(event){
     var paciente = obtemPacienteFormulario(form)
     var pacienteTr = montaTr(paciente)    
     var tabela = document.querySelector('#tabela-pacientes')
+    var erros = validaPaciente(paciente)
 
+    if(erros.length > 0){
+        exibeMsgErro(erros) 
+        return        
+    }
+    
     tabela.appendChild(pacienteTr)
 
     form.reset()
+
+    var msgErro = querySelector('#mensagens-erro')
+    msgErro.innerHTML = ''
 })
 
 
@@ -35,6 +44,7 @@ function montaTr(paciente) {
     pacienteTr.appendChild(montaTd(paciente.gordura,'info-gordura'))
     pacienteTr.appendChild(montaTd(paciente.imc,'info-imc')) 
     
+    
     return pacienteTr   
 }
 
@@ -44,4 +54,34 @@ function montaTd(dado, classe){
     td.classList.add(classe)
 
     return td
+}
+
+function validaPaciente(paciente){
+    var erros=[]
+    
+    if(!paciente.nome.length){
+        erros.push('Nome Inválido!')
+    }
+    if((!validaPeso(paciente.peso)) || (!paciente.peso.length)){
+        erros.push('Peso Inválido!')
+    }
+    if((!validaAltura(paciente.altura))|| (!paciente.altura.length)){
+        erros.push('Altura Inválida!')
+    }
+    if(!paciente.gordura.length){
+        erros.push('Gordura Inválida!')
+    }
+    
+    return erros
+}
+
+function exibeMsgErro(erros){
+    var ul = document.querySelector('#mensagens-erro')
+    ul.innerHTML=''
+    erros.forEach(function(erro){
+        var li = document.createElement('li')
+        li.textContent = erro
+        ul.appendChild(li)
+    })
+    return ul
 }

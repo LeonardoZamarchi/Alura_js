@@ -11,19 +11,12 @@ for (var i = 0; i < pacientes.length;i++){
 
     var tdImc = paciente.querySelector(".info-imc")
 
-    var pesoValido = true
-    var alturaValida = true
+    var pesoValido = validaPeso(peso)
+    var alturaValida = validaAltura(altura)
 
     var imc = ""
 
-    if(peso <= 0 || peso > 200){
-
-        pesoValido = false
-    }
-    if(altura <= 0 || altura > 3.00){
-
-        alturaValida = false
-    }
+    
 
     if (alturaValida && pesoValido){
         var imc= calculaImc(peso,altura)
@@ -43,4 +36,20 @@ function calculaImc(peso,altura) {
     
     imc = peso/(altura*altura)
     return imc.toFixed(2)
+}
+
+function validaPeso(peso){
+    if(peso <= 0 || peso > 200){
+        return false
+    }else{
+        return true
+    }
+}
+
+function validaAltura(altura){
+    if(altura <= 0 || altura > 3.00){
+        return false
+    }else{
+        return true
+    }
 }
